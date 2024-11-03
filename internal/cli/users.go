@@ -133,6 +133,7 @@ func usersCmd(cli *cli) *cobra.Command {
 	cmd.AddCommand(userRolesCmd(cli))
 	cmd.AddCommand(openUserCmd(cli))
 	cmd.AddCommand(userBlocksCmd(cli))
+	cmd.AddCommand(userAccountsCmd(cli))
 	cmd.AddCommand(importUsersCmd(cli))
 
 	return cmd
