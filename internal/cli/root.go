@@ -161,6 +161,7 @@ func addSubCommands(rootCmd *cobra.Command, cli *cli) {
 	rootCmd.AddCommand(rolesCmd(cli))
 	rootCmd.AddCommand(organizationsCmd(cli))
 	rootCmd.AddCommand(universalLoginCmd(cli))
+	rootCmd.AddCommand(phoneCmd(cli))
 	rootCmd.AddCommand(emailCmd(cli))
 	rootCmd.AddCommand(customDomainsCmd(cli))
 	rootCmd.AddCommand(quickstartsCmd(cli))
@@ -169,6 +170,9 @@ func addSubCommands(rootCmd *cobra.Command, cli *cli) {
 	rootCmd.AddCommand(logsCmd(cli))
 	rootCmd.AddCommand(apiCmd(cli))
 	rootCmd.AddCommand(terraformCmd(cli))
+	rootCmd.AddCommand(eventStreamsCmd(cli))
+	rootCmd.AddCommand(networkACLCmd(cli))
+	rootCmd.AddCommand(tenantSettingsCmd(cli))
 
 	// Keep completion at the bottom.
 	rootCmd.AddCommand(completionCmd(cli))

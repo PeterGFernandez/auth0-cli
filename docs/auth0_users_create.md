@@ -24,6 +24,10 @@ auth0 users create [flags]
   auth0 users create --name "John Doe" --email john@example.com
   auth0 users create --name "John Doe" --email john@example.com --connection-name "Username-Password-Authentication" --username "example"
   auth0 users create -n "John Doe" -e john@example.com -c "Username-Password-Authentication" -u "example" --json
+  auth0 users create -n "John Doe" -e john@example.com -c "email" --json
+  auth0 users create -e john@example.com -c "email"
+  auth0 users create --phone-number +916898989898 --connection-name "sms"
+  auth0 users create -m +916898989898 -c "sms" --json
 ```
 
 
@@ -35,6 +39,7 @@ auth0 users create [flags]
       --json                     Output in json format.
   -n, --name string              The user's full name.
   -p, --password string          Initial password for this user (mandatory for non-SMS connections).
+  -m, --phone-number string      The user's phone number.
   -u, --username string          The user's username. Only valid if the connection requires a username.
 ```
 
@@ -58,6 +63,7 @@ auth0 users create [flags]
 - [auth0 users open](auth0_users_open.md) - Open the user's settings page
 - [auth0 users roles](auth0_users_roles.md) - Manage a user's roles
 - [auth0 users search](auth0_users_search.md) - Search for users
+- [auth0 users search-by-email](auth0_users_search-by-email.md) - Search for users
 - [auth0 users show](auth0_users_show.md) - Show an existing user
 - [auth0 users update](auth0_users_update.md) - Update a user
 

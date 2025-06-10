@@ -22,18 +22,29 @@ auth0 users update [flags]
   auth0 users update 
   auth0 users update <user-id> 
   auth0 users update <user-id> --name "John Doe"
-  auth0 users update <user-id> --name "John Doe" --email john.doe@example.com
+  auth0 users update <user-id> --blocked=true"
+  auth0 users update <user-id> --blocked=false"
+  auth0 users update <user-id> -n "John Kennedy" -e johnk@example.com --json
+  auth0 users update <user-id> -n "John Kennedy" -p <newPassword>
+  auth0 users update <user-id> -b
+  auth0 users update <user-id> -p <newPassword>
+  auth0 users update <user-id> -e johnk@example.com
+  auth0 users update <user-id> --phone-number +916898989899
+  auth0 users update <user-id> -m +916898989899 --json
 ```
 
 
 ## Flags
 
 ```
+  -b, --blocked                  Block the user authentication.
   -c, --connection-name string   Name of the database connection this user should be created in.
   -e, --email string             The user's email.
       --json                     Output in json format.
   -n, --name string              The user's full name.
   -p, --password string          Initial password for this user (mandatory for non-SMS connections).
+  -m, --phone-number string      The user's phone number.
+  -u, --username string          The user's username. Only valid if the connection requires a username.
 ```
 
 
@@ -56,6 +67,7 @@ auth0 users update [flags]
 - [auth0 users open](auth0_users_open.md) - Open the user's settings page
 - [auth0 users roles](auth0_users_roles.md) - Manage a user's roles
 - [auth0 users search](auth0_users_search.md) - Search for users
+- [auth0 users search-by-email](auth0_users_search-by-email.md) - Search for users
 - [auth0 users show](auth0_users_show.md) - Show an existing user
 - [auth0 users update](auth0_users_update.md) - Update a user
 

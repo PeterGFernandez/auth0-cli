@@ -29,9 +29,13 @@ delete_resources "roles" "integration-test-role" "id"
 delete_resources "rules" "integration-test-rule" "id"
 delete_resources "orgs" "integration-test-org" "id"
 delete_resources "actions" "integration-test-" "id"
+delete_resources "events" "integration-test-" "id"
 delete_resources "logs streams" "integration-test-" "id"
 
 auth0 domains delete $(./test/integration/scripts/get-custom-domain-id.sh) --no-input
+
+# clean up the email provider
+auth0 email provider delete --force
 
 # Reset universal login branding
 auth0 ul update --accent "#2A2E35" --background "#FF4F40" --logo "https://example.com/logo.png" --favicon "https://example.com/favicon.png" --font https://example.com/font.woff --no-input

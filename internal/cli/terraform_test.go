@@ -41,7 +41,7 @@ func TestFetchImportData(t *testing.T) {
 			{ResourceName: "Resource2", ImportID: "456"},
 		}
 
-		data, err := fetchImportData(context.Background(), mockFetchers...)
+		data, err := fetchImportData(context.Background(), &cli{}, mockFetchers...)
 		assert.NoError(t, err)
 		assert.Equal(t, expectedData, data)
 	})
@@ -61,7 +61,7 @@ func TestFetchImportData(t *testing.T) {
 			{ResourceName: "auth0_client.same", ImportID: "client-1"},
 		}
 
-		data, err := fetchImportData(context.Background(), mockFetchers...)
+		data, err := fetchImportData(context.Background(), &cli{}, mockFetchers...)
 		assert.NoError(t, err)
 		assert.Equal(t, expectedData, data)
 	})
@@ -72,85 +72,85 @@ func TestFetchImportData(t *testing.T) {
 			&mockFetcher{mockErr: expectedErr},
 		}
 
-		_, err := fetchImportData(context.Background(), mockFetchers...)
+		_, err := fetchImportData(context.Background(), &cli{}, mockFetchers...)
 		assert.EqualError(t, err, "failed to list clients")
 	})
 }
 
 func TestGenerateTerraformImportConfig(t *testing.T) {
 	t.Run("it can correctly generate the terraform config files", func(t *testing.T) {
-		outputDIR, importData := setupTestDIRAndImportData(t)
+		input, importData := setupTestDIRAndImportData(t)
 
-		err := generateTerraformImportConfig(outputDIR, importData)
+		err := generateTerraformImportConfig(&input, importData)
 		require.NoError(t, err)
 
-		assertTerraformMainFileWasGeneratedCorrectly(t, outputDIR)
-		assertTerraformImportFileWasGeneratedCorrectly(t, outputDIR, importData)
+		assertTerraformMainFileWasGeneratedCorrectly(t, input.OutputDIR)
+		assertTerraformImportFileWasGeneratedCorrectly(t, input.OutputDIR, importData)
 	})
 
 	t.Run("it can correctly generate the terraform main config file even if the dir exists", func(t *testing.T) {
-		outputDIR, importData := setupTestDIRAndImportData(t)
+		input, importData := setupTestDIRAndImportData(t)
 
-		err := os.MkdirAll(outputDIR, 0755)
+		err := os.MkdirAll(input.OutputDIR, 0755)
 		require.NoError(t, err)
 
-		err = generateTerraformImportConfig(outputDIR, importData)
+		err = generateTerraformImportConfig(&input, importData)
 		require.NoError(t, err)
 
-		assertTerraformMainFileWasGeneratedCorrectly(t, outputDIR)
-		assertTerraformImportFileWasGeneratedCorrectly(t, outputDIR, importData)
+		assertTerraformMainFileWasGeneratedCorrectly(t, input.OutputDIR)
+		assertTerraformImportFileWasGeneratedCorrectly(t, input.OutputDIR, importData)
 	})
 
 	t.Run("it fails to generate the terraform config files if there's no import data", func(t *testing.T) {
-		outputDIR, _ := setupTestDIRAndImportData(t)
+		input, _ := setupTestDIRAndImportData(t)
 
-		err := generateTerraformImportConfig(outputDIR, importDataList{})
+		err := generateTerraformImportConfig(&input, importDataList{})
 		assert.EqualError(t, err, "no import data available")
 	})
 
 	t.Run("it fails to create the directory if path is empty", func(t *testing.T) {
 		_, importData := setupTestDIRAndImportData(t)
 
-		err := generateTerraformImportConfig("", importData)
+		err := generateTerraformImportConfig(&terraformInputs{OutputDIR: ""}, importData)
 		assert.EqualError(t, err, "mkdir : no such file or directory")
 	})
 
 	t.Run("it fails to create the main.tf file if file is already created and read only", func(t *testing.T) {
-		outputDIR, importData := setupTestDIRAndImportData(t)
+		input, importData := setupTestDIRAndImportData(t)
 
-		err := os.MkdirAll(outputDIR, 0755)
+		err := os.MkdirAll(input.OutputDIR, 0755)
 		require.NoError(t, err)
 
-		mainFilePath := path.Join(outputDIR, "auth0_main.tf")
+		mainFilePath := path.Join(input.OutputDIR, "auth0_main.tf")
 		_, err = os.Create(mainFilePath)
 		require.NoError(t, err)
 
 		err = os.Chmod(mainFilePath, 0444)
 		require.NoError(t, err)
 
-		err = generateTerraformImportConfig(outputDIR, importData)
+		err = generateTerraformImportConfig(&input, importData)
 		assert.EqualError(t, err, fmt.Sprintf("open %s: permission denied", mainFilePath))
 	})
 
 	t.Run("it fails to create the auth0_import.tf file if file is already created and read only", func(t *testing.T) {
-		outputDIR, importData := setupTestDIRAndImportData(t)
+		input, importData := setupTestDIRAndImportData(t)
 
-		err := os.MkdirAll(outputDIR, 0755)
+		err := os.MkdirAll(input.OutputDIR, 0755)
 		require.NoError(t, err)
 
-		importFilePath := path.Join(outputDIR, "auth0_import.tf")
+		importFilePath := path.Join(input.OutputDIR, "auth0_import.tf")
 		_, err = os.Create(importFilePath)
 		require.NoError(t, err)
 
 		err = os.Chmod(importFilePath, 0444)
 		require.NoError(t, err)
 
-		err = generateTerraformImportConfig(outputDIR, importData)
+		err = generateTerraformImportConfig(&input, importData)
 		assert.EqualError(t, err, fmt.Sprintf("open %s: permission denied", importFilePath))
 	})
 }
 
-func setupTestDIRAndImportData(t *testing.T) (string, importDataList) {
+func setupTestDIRAndImportData(t *testing.T) (terraformInputs, importDataList) {
 	dirPath, err := os.MkdirTemp("", "terraform-*")
 	require.NoError(t, err)
 
@@ -179,7 +179,12 @@ func setupTestDIRAndImportData(t *testing.T) (string, importDataList) {
 		},
 	}
 
-	return outputDIR, importData
+	input := terraformInputs{
+		outputDIR,
+		nil,
+		"1.5.0",
+	}
+	return input, importData
 }
 
 func assertTerraformMainFileWasGeneratedCorrectly(t *testing.T, outputDIR string) {
@@ -193,7 +198,7 @@ func assertTerraformMainFileWasGeneratedCorrectly(t *testing.T, outputDIR string
 	assert.NoError(t, err)
 
 	expectedContent := `terraform {
-  required_version = "~> 1.5.0"
+  required_version = ">= 1.5.0"
   required_providers {
     auth0 = {
       source  = "auth0/auth0"

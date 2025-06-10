@@ -11,7 +11,9 @@ import (
 	"github.com/auth0/auth0-cli/internal/auth0"
 )
 
-var defaultResources = []string{"auth0_action", "auth0_attack_protection", "auth0_branding", "auth0_client", "auth0_client_grant", "auth0_connection", "auth0_custom_domain", "auth0_email_provider", "auth0_email_template", "auth0_guardian", "auth0_organization", "auth0_pages", "auth0_prompt", "auth0_prompt_custom_text", "auth0_resource_server", "auth0_role", "auth0_tenant", "auth0_trigger_actions"}
+var (
+	defaultResources = []string{"auth0_action", "auth0_attack_protection", "auth0_branding", "auth0_phone_provider", "auth0_client", "auth0_client_grant", "auth0_connection", "auth0_custom_domain", "auth0_flow", "auth0_flow_vault_connection", "auth0_form", "auth0_email_provider", "auth0_email_template", "auth0_guardian", "auth0_log_stream", "auth0_network_acl", "auth0_organization", "auth0_pages", "auth0_prompt", "auth0_prompt_custom_text", "auth0_prompt_screen_renderer", "auth0_resource_server", "auth0_role", "auth0_tenant", "auth0_trigger_actions"}
+)
 
 type (
 	importDataList []importDataItem
@@ -34,7 +36,12 @@ type (
 	attackProtectionResourceFetcher struct{}
 
 	brandingResourceFetcher struct{}
-	clientResourceFetcher   struct {
+
+	phoneProviderResourceFetcher struct {
+		api *auth0.API
+	}
+
+	clientResourceFetcher struct {
 		api *auth0.API
 	}
 
@@ -58,6 +65,18 @@ type (
 		api *auth0.API
 	}
 
+	flowResourceFetcher struct {
+		api *auth0.API
+	}
+
+	flowVaultConnectionResourceFetcher struct {
+		api *auth0.API
+	}
+
+	formResourceFetcher struct {
+		api *auth0.API
+	}
+
 	guardianResourceFetcher  struct{}
 	logStreamResourceFetcher struct {
 		api *auth0.API
@@ -66,12 +85,19 @@ type (
 		api *auth0.API
 	}
 
+	networkACLResourceFetcher struct {
+		api *auth0.API
+	}
+
 	pagesResourceFetcher          struct{}
 	resourceServerResourceFetcher struct {
 		api *auth0.API
 	}
 
-	promptResourceFetcher struct{}
+	promptResourceFetcher               struct{}
+	promptScreenRendererResourceFetcher struct {
+		api *auth0.API
+	}
 
 	promptCustomTextResourceFetcherResourceFetcher struct {
 		api *auth0.API
@@ -104,6 +130,28 @@ func (f *brandingResourceFetcher) FetchData(_ context.Context) (importDataList, 
 			ImportID:     uuid.NewString(),
 		},
 	}, nil
+}
+
+func (f *phoneProviderResourceFetcher) FetchData(ctx context.Context) (importDataList, error) {
+	var data importDataList
+
+	phoneProvidersList, err := f.api.Branding.ListPhoneProviders(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	if len(phoneProvidersList.Providers) == 0 {
+		return nil, nil
+	}
+
+	for _, provider := range phoneProvidersList.Providers {
+		data = append(data, importDataItem{
+			ResourceName: "auth0_phone_provider." + sanitizeResourceName(provider.GetName()),
+			ImportID:     provider.GetID(),
+		})
+	}
+
+	return data, nil
 }
 
 func (f *clientResourceFetcher) FetchData(ctx context.Context) (importDataList, error) {
@@ -215,10 +263,16 @@ func (f *customDomainResourceFetcher) FetchData(ctx context.Context) (importData
 
 	customDomains, err := f.api.CustomDomain.List(ctx)
 	if err != nil {
-		if strings.Contains(err.Error(), "The account is not allowed to perform this operation, please contact our support team") {
-			return data, nil
+		errNotEnabled := []string{
+			"The account is not allowed to perform this operation, please contact our support team",
+			"There must be a verified credit card on file to perform this operation",
 		}
 
+		for _, e := range errNotEnabled {
+			if strings.Contains(err.Error(), e) {
+				return data, nil
+			}
+		}
 		return nil, err
 	}
 
@@ -266,6 +320,60 @@ func (f *emailTemplateResourceFetcher) FetchData(ctx context.Context) (importDat
 		data = append(data, importDataItem{
 			ResourceName: "auth0_email_template." + sanitizeResourceName(emailTemplate.GetTemplate()),
 			ImportID:     sanitizeResourceName(emailTemplate.GetTemplate()),
+		})
+	}
+
+	return data, nil
+}
+
+func (f *flowResourceFetcher) FetchData(ctx context.Context) (importDataList, error) {
+	var data importDataList
+
+	flowList, err := f.api.Flow.List(ctx)
+	if err != nil {
+		return data, err
+	}
+
+	for _, flow := range flowList.Flows {
+		data = append(data, importDataItem{
+			ResourceName: "auth0_flow." + sanitizeResourceName(flow.GetName()),
+			ImportID:     flow.GetID(),
+		})
+	}
+
+	return data, nil
+}
+
+func (f *flowVaultConnectionResourceFetcher) FetchData(ctx context.Context) (importDataList, error) {
+	var data importDataList
+
+	flowVaultConnectionList, err := f.api.FlowVaultConnection.GetConnectionList(ctx)
+	if err != nil {
+		return data, err
+	}
+
+	for _, flowVaultConnection := range flowVaultConnectionList.Connections {
+		data = append(data, importDataItem{
+			ResourceName: "auth0_flow_vault_connection." + sanitizeResourceName(flowVaultConnection.GetName()),
+			ImportID:     flowVaultConnection.GetID(),
+		})
+	}
+
+	return data, nil
+}
+
+func (f *formResourceFetcher) FetchData(ctx context.Context) (importDataList, error) {
+	var data importDataList
+
+	forms, err := f.api.Form.List(ctx)
+	if err != nil {
+		return data, err
+	}
+
+	for _, form := range forms.Forms {
+		data = append(data, importDataItem{
+			ResourceName: "auth0_form." + sanitizeResourceName(form.GetName()),
+			ImportID:     form.GetID(),
 		})
 	}
 
@@ -343,6 +451,24 @@ func (f *organizationResourceFetcher) FetchData(ctx context.Context) (importData
 	return data, nil
 }
 
+func (f *networkACLResourceFetcher) FetchData(ctx context.Context) (importDataList, error) {
+	var data importDataList
+
+	networkACLs, err := f.api.NetworkACL.List(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	for _, networkACL := range networkACLs {
+		data = append(data, importDataItem{
+			ResourceName: "auth0_network_acl." + sanitizeResourceName(networkACL.GetID()),
+			ImportID:     networkACL.GetID(),
+		})
+	}
+
+	return data, nil
+}
+
 func (f *pagesResourceFetcher) FetchData(_ context.Context) (importDataList, error) {
 	return []importDataItem{
 		{
@@ -377,6 +503,24 @@ func (f *promptCustomTextResourceFetcherResourceFetcher) FetchData(ctx context.C
 				ImportID:     promptType + "::" + language,
 			})
 		}
+	}
+
+	return data, nil
+}
+
+func (f *promptScreenRendererResourceFetcher) FetchData(ctx context.Context) (importDataList, error) {
+	screenSettingList, err := f.api.Prompt.ListRendering(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	var data importDataList
+
+	for _, screenSetting := range screenSettingList.PromptRenderings {
+		data = append(data, importDataItem{
+			ResourceName: "auth0_prompt_screen_renderer." + sanitizeResourceName(string(*screenSetting.Prompt)+"_"+string(*screenSetting.Screen)),
+			ImportID:     string(*screenSetting.Prompt) + ":" + string(*screenSetting.Screen),
+		})
 	}
 
 	return data, nil
@@ -477,7 +621,7 @@ func (f *tenantResourceFetcher) FetchData(_ context.Context) (importDataList, er
 
 func (f *triggerActionsResourceFetcher) FetchData(ctx context.Context) (importDataList, error) {
 	var data importDataList
-	triggers := []string{"post-login", "credentials-exchange", "pre-user-registration", "post-user-registration", "post-change-password", "send-phone-message", "password-reset-post-challenge", "iga-approval", "iga-certification", "iga-fulfillment-assignment", "iga-fulfillment-execution"}
+	triggers := []string{"post-login", "credentials-exchange", "pre-user-registration", "post-user-registration", "post-change-password", "send-phone-message", "password-reset-post-challenge", "custom-email-provider", "custom-phone-provider"}
 
 	for _, trigger := range triggers {
 		res, err := f.api.Action.Bindings(ctx, trigger)

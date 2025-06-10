@@ -128,10 +128,12 @@ var RequiredScopes = []string{
 	"create:rules", "delete:rules", "read:rules", "update:rules",
 	"create:users", "delete:users", "read:users", "update:users",
 	"read:branding", "update:branding",
-	"read:email_templates", "update:email_templates",
-	"read:email_provider",
-	"read:connections", "update:connections",
-	"read:client_keys", "read:logs", "read:tenant_settings",
+	"create:phone_providers", "read:phone_providers", "update:phone_providers", "delete:phone_providers",
+	"create:email_templates", "read:email_templates", "update:email_templates",
+	"create:email_provider", "read:email_provider", "update:email_provider", "delete:email_provider",
+	"read:flows", "read:forms", "read:flows_vault_connections",
+	"read:connections", "update:connections", "read:connections_options", "update:connections_options",
+	"read:client_keys", "read:logs", "read:tenant_settings", "update:tenant_settings",
 	"read:custom_domains", "create:custom_domains", "update:custom_domains", "delete:custom_domains",
 	"read:anomaly_blocks", "delete:anomaly_blocks",
 	"create:log_streams", "delete:log_streams", "read:log_streams", "update:log_streams",
@@ -139,6 +141,8 @@ var RequiredScopes = []string{
 	"create:organizations", "delete:organizations", "read:organizations", "update:organizations", "read:organization_members", "read:organization_member_roles", "read:organization_connections",
 	"read:prompts", "update:prompts",
 	"read:attack_protection", "update:attack_protection",
+	"read:event_streams", "create:event_streams", "update:event_streams", "delete:event_streams",
+	"read:network_acls", "create:network_acls", "update:network_acls", "delete:network_acls",
 }
 
 // GetDeviceCode kicks-off the device authentication flow by requesting

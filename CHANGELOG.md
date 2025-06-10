@@ -7,6 +7,209 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+# [v.1.14.1](https://github.com/auth0/auth0-cli/tree/v1.14.1) (May 27, 2025))
+
+[Full Changelog](https://github.com/auth0/auth0-cli/compare/v1.14.0...v1.14.1)
+
+### Fixed:
+- Remove unreleased screens for ACUL [#1231] 
+
+
+# [v.1.14.0](https://github.com/auth0/auth0-cli/tree/v1.14.0) (May 22, 2025))
+
+[Full Changelog](https://github.com/auth0/auth0-cli/compare/v1.13.0...v1.14.0)
+
+### Added
+- New command to manage tenant flags via `auth0 tenant-settings show/update` [#1203]
+- Support for new screens in Advanced Customization for Universal Login [#1225]
+- Subcommand `search-by-email` on `auth0 users` along with --picker flag [#1209]
+
+### Fixed
+- Respect --screen flag for `auth0 ul customize` [#1228]
+- Replace package `mholt/archiver` with custom implementation of unzip [#1218]
+
+
+# [v.1.13.0](https://github.com/auth0/auth0-cli/tree/v1.13.0) (May 7, 2025))
+
+[Full Changelog](https://github.com/auth0/auth0-cli/compare/v1.12.0...v1.13.0)
+
+### Added
+- New flag for improved visualization of logs using `auth0 logs ls -p` [#1195]
+- Support to manage session-transfer for applications using `auth0 apps session-transfer` [#1180]
+- Support to set `refresh-token` for a client and configure Multi Resource Refresh Token [#1192]
+
+### Fixed
+- Handle 403 forbidden during `auth0 tf generate` for non feature-flag enabled tenants [#1197]
+
+# [v.1.12.0](https://github.com/auth0/auth0-cli/tree/v1.12.0) (Apr 28, 2025))
+
+[Full Changelog](https://github.com/auth0/auth0-cli/compare/v1.11.0...v1.12.0)
+
+### Added
+- Support to manage tenant ACL using `auth0 network-acl` (EA Release) [#1166]
+- Add support for new screens in Advanced Customization for Universal Login [#1185]
+- Support authentication blocking for an user via `auth0 users update <user-id> --blocked`[#1181]
+- Support additional scopes for connections [#1184]
+
+### Changed
+- Updated ULP branding assets to support standard customization of Universal login for all the available prompts[#1188]
+
+### Fixed
+- Fix validation to authorize audience only for M2M apps in test commands [#1183]
+
+
+# [v.1.11.0](https://github.com/auth0/auth0-cli/tree/v1.11.0) (Apr 02, 2025))
+
+[Full Changelog](https://github.com/auth0/auth0-cli/compare/v1.10.1...v1.11.0)
+
+### Added
+
+- Support org flag in test login and test token command [#1173]
+
+### Fixed
+
+- Update assets related to universal login[#1172]
+
+
+# [v.1.10.1](https://github.com/auth0/auth0-cli/tree/v1.10.1) (Mar 28, 2025))
+
+[Full Changelog](https://github.com/auth0/auth0-cli/compare/v1.10.0...v1.10.1)
+
+### Added
+
+- Add support for new screens in Advanced Customization for Universal Login [#1167]
+
+### Fixed
+
+- Handle nil check on customText cache in assets and update CDN textLocal URL [#1170]
+
+
+# [v.1.10.0](https://github.com/auth0/auth0-cli/tree/v1.10.0) (Mar 11, 2025))
+
+[Full Changelog](https://github.com/auth0/auth0-cli/compare/v1.9.3...v1.10.0)
+
+### Added
+
+- Add support to manage phone provider using `auth0 phone provider` [#1137]
+
+
+# [v.1.9.3](https://github.com/auth0/auth0-cli/tree/v1.9.3) (Mar 07, 2025))
+
+[Full Changelog](https://github.com/auth0/auth0-cli/compare/v1.9.2...v1.9.3)
+
+### Fixed
+
+- Handle nil check on ReadRendering management API Response [#1150]
+
+
+# [v.1.9.2](https://github.com/auth0/auth0-cli/tree/v1.9.2) (Mar 05, 2025))
+
+[Full Changelog](https://github.com/auth0/auth0-cli/compare/v1.9.1...v1.9.2)
+
+### Added
+
+- Optimize universal-login commands [#1142]
+
+### Removed
+
+- Remove unsupported query params from the domains list implementation [#1144]
+
+
+# [v.1.9.1](https://github.com/auth0/auth0-cli/tree/v1.9.1) (Feb 21, 2025))
+
+[Full Changelog](https://github.com/auth0/auth0-cli/compare/v1.9.0...v1.9.1)
+
+### Added
+
+- Add support for new screens in Advanced Customization for Universal Login [#1140]
+
+
+# [v.1.9.0](https://github.com/auth0/auth0-cli/tree/v1.9.0) (Feb 6, 2025))
+
+[Full Changelog](https://github.com/auth0/auth0-cli/compare/v1.8.0...v1.9.0)
+
+### Added
+
+- Add support for new screens in Advanced Customization for Universal Login [#1132]
+- Add support to set custom url parameters using `--params` in `auth0 test` [#1130]
+- Add support to set runtime using `--runtime` in `auth0 actions` [#1131]
+- Add support to manage Event Streams using `auth0 events` [#1134]
+
+### Changed
+
+- Updated `auth0 ul customize` branding assets to load custom text based on selected screens [#1124]
+
+
+# [v.1.8.0](https://github.com/auth0/auth0-cli/tree/v1.8.0) (Jan 21, 2025))
+
+[Full Changelog](https://github.com/auth0/auth0-cli/compare/v1.7.2...v1.8.0)
+
+### Added
+
+- Support `reset_email_by_code` email template [#1119]
+- Add support for configuring `email provider` [#1120]
+- Add `requiredScopes` related to emailProvider [#1129]
+
+
+# [v.1.7.2](https://github.com/auth0/auth0-cli/tree/v1.7.2) (Dec 19, 2024))
+
+[Full Changelog](https://github.com/auth0/auth0-cli/compare/v1.7.1...v1.7.2)
+
+### Fixed
+
+- fix(terraform): Handle 403 forbidden error [#1115]
+
+
+# [v.1.7.1](https://github.com/auth0/auth0-cli/tree/v1.7.1) (Dec 19, 2024))
+
+[Full Changelog](https://github.com/auth0/auth0-cli/compare/v1.7.0...v1.7.1)
+
+### Added
+
+- Support flags for `auth0 ul customize` command to choose the renderingMode, prompt & screenNames along with configSettings file[#1111]
+
+### Fixed
+
+- Fix `auth0 tf generate` command and handle error when custom domain is not enabled [#1103]
+- Fix CDN textLocal URL & include unit tests for fetchData of the resource `auth0_prompt_screen_renderer`[#1109]
+
+
+# [v.1.7.0](https://github.com/auth0/auth0-cli/tree/v1.7.0) (Dec 9, 2024))
+
+[Full Changelog](https://github.com/auth0/auth0-cli/compare/v1.6.1...v1.7.0)
+
+### Added
+
+- Support for importing `auth0_prompt_screen_renderer` terraform resource [#1106]
+
+### Fixed
+
+- For `ul login` added check to filter and identify only support partials. [#1107]
+
+# [v1.6.1](https://github.com/auth0/auth0-cli/tree/v1.6.1) (Oct 31, 2024)
+
+[Full Changelog](https://github.com/auth0/auth0-cli/compare/v1.6.0...v1.6.1)
+
+### Added
+
+- Added new flag (`tf-version`) to pass terraform version during `auth0 tf generate` command [#1098]
+
+### Removed
+
+- Removed iga-* triggers from triggerActionsResourceFetcher [#1099]
+
+# [v1.6.0](https://github.com/auth0/auth0-cli/tree/v1.6.0) (Oct 17, 2024)
+
+[Full Changelog](https://github.com/auth0/auth0-cli/compare/v1.5.1...v1.6.0)
+
+### Added
+
+- Support for importing `Flows`, `Forms` and `FlowVaultConnections` Terraform Resources [#1084]
+
+### Fixed
+
+- Resolved an issue to support `passwordless connection` while creating and updating a user  [#1091]
+
 # [v1.5.1](https://github.com/auth0/auth0-cli/tree/v1.5.1) (Oct 4, 2024)
 
 [Full Changelog](https://github.com/auth0/auth0-cli/compare/v1.5.0...v1.5.1)
@@ -302,7 +505,53 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `auth0 tenants add` command in favor of `auth0 login` [#546]
 - Updating of action triggers which inevitably results in error [#597]
 
-[unreleased]: https://github.com/auth0/auth0-cli/compare/v1.5.1...HEAD
+
+[unreleased]: https://github.com/auth0/auth0-cli/compare/v1.14.1...HEAD
+
+[#1231]:https://github.com/auth0/auth0-cli/issues/1231
+[#1228]:https://github.com/auth0/auth0-cli/issues/1228
+[#1225]:https://github.com/auth0/auth0-cli/issues/1225
+[#1218]:https://github.com/auth0/auth0-cli/issues/1218
+[#1209]:https://github.com/auth0/auth0-cli/issues/1209
+[#1203]:https://github.com/auth0/auth0-cli/issues/1203
+[#1197]:https://github.com/auth0/auth0-cli/issues/1197
+[#1195]:https://github.com/auth0/auth0-cli/issues/1195
+[#1192]:https://github.com/auth0/auth0-cli/issues/1192
+[#1188]: https://github.com/auth0/auth0-cli/issues/1188
+[#1185]: https://github.com/auth0/auth0-cli/issues/1185
+[#1184]: https://github.com/auth0/auth0-cli/issues/1184
+[#1183]: https://github.com/auth0/auth0-cli/issues/1183
+[#1182]: https://github.com/auth0/auth0-cli/issues/1182
+[#1181]: https://github.com/auth0/auth0-cli/issues/1181
+[#1180]:https://github.com/auth0/auth0-cli/issues/1180
+[#1166]: https://github.com/auth0/auth0-cli/issues/1166
+[#1173]: https://github.com/auth0/auth0-cli/issues/1173
+[#1172]: https://github.com/auth0/auth0-cli/issues/1172
+[#1170]: https://github.com/auth0/auth0-cli/issues/1170
+[#1167]: https://github.com/auth0/auth0-cli/issues/1167
+[#1137]: https://github.com/auth0/auth0-cli/issues/1137
+[#1150]: https://github.com/auth0/auth0-cli/issues/1150
+[#1144]: https://github.com/auth0/auth0-cli/issues/1144
+[#1142]: https://github.com/auth0/auth0-cli/issues/1142
+[#1140]: https://github.com/auth0/auth0-cli/issues/1140
+[#1134]: https://github.com/auth0/auth0-cli/issues/1134
+[#1132]: https://github.com/auth0/auth0-cli/issues/1132
+[#1130]: https://github.com/auth0/auth0-cli/issues/1130
+[#1131]: https://github.com/auth0/auth0-cli/issues/1131
+[#1129]: https://github.com/auth0/auth0-cli/issues/1129
+[#1124]: https://github.com/auth0/auth0-cli/issues/1124
+[#1120]: https://github.com/auth0/auth0-cli/issues/1120
+[#1119]: https://github.com/auth0/auth0-cli/issues/1119
+[#1115]: https://github.com/auth0/auth0-cli/issues/1115
+[#1111]: https://github.com/auth0/auth0-cli/issues/1111
+[#1109]: https://github.com/auth0/auth0-cli/issues/1109
+[#1103]: https://github.com/auth0/auth0-cli/issues/1103
+[#1107]: https://github.com/auth0/auth0-cli/issues/1107
+[#1106]: https://github.com/auth0/auth0-cli/issues/1106
+[#1099]: https://github.com/auth0/auth0-cli/issues/1099
+[#1098]: https://github.com/auth0/auth0-cli/issues/1098
+[#1091]: https://github.com/auth0/auth0-cli/issues/1091
+[#1084]: https://github.com/auth0/auth0-cli/issues/1084
 [#1083]: https://github.com/auth0/auth0-cli/issues/1083
 [#1081]: https://github.com/auth0/auth0-cli/issues/1081
 [#1079]: https://github.com/auth0/auth0-cli/issues/1079

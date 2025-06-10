@@ -17,10 +17,10 @@ auth0 users import [flags]
 
 ```
   auth0 users import
-  auth0 users import --connection "Username-Password-Authentication"
-  auth0 users import --connection "Username-Password-Authentication" --users "[]"
-  auth0 users import --connection "Username-Password-Authentication" --users "$(cat path/to/users.json)"
-  cat path/to/users.json | auth0 users import --connection "Username-Password-Authentication"
+  auth0 users import --connection-name "Username-Password-Authentication"
+  auth0 users import --connection-name "Username-Password-Authentication" --users "[]"
+  auth0 users import --connection-name "Username-Password-Authentication" --users "$(cat path/to/users.json)"
+  cat path/to/users.json | auth0 users import --connection-name "Username-Password-Authentication"
   auth0 users import -c "Username-Password-Authentication" --template "Basic Example"
   auth0 users import -c "Username-Password-Authentication" --users "$(cat path/to/users.json)" --upsert --email-results
   auth0 users import -c "Username-Password-Authentication" --users "$(cat path/to/users.json)" --upsert --email-results --no-input
@@ -63,6 +63,7 @@ auth0 users import [flags]
 - [auth0 users open](auth0_users_open.md) - Open the user's settings page
 - [auth0 users roles](auth0_users_roles.md) - Manage a user's roles
 - [auth0 users search](auth0_users_search.md) - Search for users
+- [auth0 users search-by-email](auth0_users_search-by-email.md) - Search for users
 - [auth0 users show](auth0_users_show.md) - Show an existing user
 - [auth0 users update](auth0_users_update.md) - Update a user
 

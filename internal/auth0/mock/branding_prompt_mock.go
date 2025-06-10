@@ -75,6 +75,26 @@ func (mr *MockPromptAPIMockRecorder) GetPartials(ctx, prompt interface{}, opts .
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetPartials", reflect.TypeOf((*MockPromptAPI)(nil).GetPartials), varargs...)
 }
 
+// ListRendering mocks base method.
+func (m *MockPromptAPI) ListRendering(ctx context.Context, opts ...management.RequestOption) (*management.PromptRenderingList, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "ListRendering", varargs...)
+	ret0, _ := ret[0].(*management.PromptRenderingList)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListRendering indicates an expected call of ListRendering.
+func (mr *MockPromptAPIMockRecorder) ListRendering(ctx interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListRendering", reflect.TypeOf((*MockPromptAPI)(nil).ListRendering), varargs...)
+}
+
 // Read mocks base method.
 func (m *MockPromptAPI) Read(ctx context.Context, opts ...management.RequestOption) (*management.Prompt, error) {
 	m.ctrl.T.Helper()
@@ -93,6 +113,26 @@ func (mr *MockPromptAPIMockRecorder) Read(ctx interface{}, opts ...interface{}) 
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Read", reflect.TypeOf((*MockPromptAPI)(nil).Read), varargs...)
+}
+
+// ReadRendering mocks base method.
+func (m *MockPromptAPI) ReadRendering(ctx context.Context, prompt management.PromptType, screen management.ScreenName, opts ...management.RequestOption) (*management.PromptRendering, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, prompt, screen}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "ReadRendering", varargs...)
+	ret0, _ := ret[0].(*management.PromptRendering)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ReadRendering indicates an expected call of ReadRendering.
+func (mr *MockPromptAPIMockRecorder) ReadRendering(ctx, prompt, screen interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, prompt, screen}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadRendering", reflect.TypeOf((*MockPromptAPI)(nil).ReadRendering), varargs...)
 }
 
 // SetCustomText mocks base method.
@@ -150,4 +190,23 @@ func (mr *MockPromptAPIMockRecorder) Update(ctx, p interface{}, opts ...interfac
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, p}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockPromptAPI)(nil).Update), varargs...)
+}
+
+// UpdateRendering mocks base method.
+func (m *MockPromptAPI) UpdateRendering(ctx context.Context, prompt management.PromptType, screen management.ScreenName, c *management.PromptRendering, opts ...management.RequestOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, prompt, screen, c}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateRendering", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateRendering indicates an expected call of UpdateRendering.
+func (mr *MockPromptAPIMockRecorder) UpdateRendering(ctx, prompt, screen, c interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, prompt, screen, c}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateRendering", reflect.TypeOf((*MockPromptAPI)(nil).UpdateRendering), varargs...)
 }

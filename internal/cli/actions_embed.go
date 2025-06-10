@@ -23,6 +23,12 @@ var (
 	//go:embed data/action-template-send-phone-message.js
 	actionTemplateSendPhoneMessage string
 
+	//go:embed data/action-template-custom-email-provider.js
+	actionTemplateCustomEmailProvider string
+
+	//go:embed data/action-template-custom-phone-provider.js
+	actionTemplateCustomPhoneProvider string
+
 	//go:embed data/action-template-empty.js
 	actionTemplateEmpty string
 )
